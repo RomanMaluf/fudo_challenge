@@ -1,0 +1,1 @@
+TCP es un protocolo de transporte que garantiza el orden de entrega de datos y la deteccion de errores a traves de identificadores y reenvio de paquetes perdidos/dañaddos.

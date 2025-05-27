@@ -1,0 +1,2 @@
+HTTP es un protocolo de aplicacion para la comunicación basado en cliente/servidor. Es la base de cualquier intercambio de información el cual nos permite solicitar datos y/o recursos.
+HTTP nos especifca metodos de solicitud para especificar la acción que se realizará con un propósito específico.
