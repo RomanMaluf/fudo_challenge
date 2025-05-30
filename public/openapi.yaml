@@ -1,0 +1,18 @@
+---
+openapi: 3.1.0
+info:
+  title: fudo_challenge
+  version: 1.0.0
+servers: []
+paths:
+  "/AUTHORS":
+    get:
+      summary: GET /AUTHORS
+      responses:
+        '200':
+          description: GET / returns 200
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Roman Elias Maluf

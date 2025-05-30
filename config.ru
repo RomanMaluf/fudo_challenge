@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-require_relative './app/main'
+require_relative './lib/fudo_challenge'
 
 run FudoChallenge.new
