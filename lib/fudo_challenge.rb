@@ -20,13 +20,10 @@ require_relative 'routes/jobs'
 # Jobs
 require_relative 'jobs/insert_product'
 
+# Models
+require_relative 'models/product'
 class FudoChallenge
   API_TOKEN = 'fudo_challenge_api_token'
-  $products = begin
-    JSON.parse(File.read('public/products.json'), symbolize_names: true)
-  rescue StandardError
-    []
-  end
 
   def call(env)
     process_route(env)

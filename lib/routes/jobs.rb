@@ -24,7 +24,6 @@ module Routes
         raise NotFoundError, "Job with ID #{job_id} not found" unless status
 
         ResponseBuilder.build(200, body: { job_id: job_id, status: status })
-
       end
     end
   end

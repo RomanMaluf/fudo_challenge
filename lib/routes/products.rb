@@ -2,8 +2,6 @@
 
 module Routes
   class Products
-    REQUIRED_KEYS = %i[id name].freeze
-
     def self.route(env)
       case env[:request_method]
       when :get
@@ -27,30 +25,13 @@ module Routes
     end
 
     def self.serve_products
-      ResponseBuilder.build(200, body: { products: $products })
+      ResponseBuilder.build(200, body: { products: Product.all })
     end
 
     def self.enqueue_insert_product(product)
-      validate_keys! product.keys
-      validate_product_unique! product[:id]
       job_id = SecureRandom.uuid
-      ::Jobs::InsertProduct.enqueue(job_id) do
-        $products << product
-      end
+      ::Jobs::InsertProduct.enqueue(job_id, product)
       job_id
-    end
-
-    def self.validate_keys!(keys)
-      missing_keys = REQUIRED_KEYS - keys
-      return if missing_keys.empty?
-
-      raise ArgumentError, "Missing required keys: #{missing_keys.join(', ')}"
-    end
-
-    def self.validate_product_unique!(id)
-      return unless $products.any? { |p| p[:id].to_s == id.to_s }
-
-      raise ArgumentError, 'Product ID must be unique'
     end
   end
 end
