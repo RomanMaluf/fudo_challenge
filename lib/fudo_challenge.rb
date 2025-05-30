@@ -41,9 +41,7 @@ class FudoChallenge
     when 'login'
       Routes::Auth.route(env)
     when 'products'
-      unless Routes::Auth.validate_token(env[:headers]['authorization'])
-        raise UnauthorizedError, 'Missing or invalid token'
-      end
+      Routes::Auth.validate_token!(env[:headers]['authorization'])
 
       Routes::Products.route(env)
     else

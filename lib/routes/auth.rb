@@ -14,7 +14,6 @@ module Routes
         raise UnauthorizedError, 'Invalid username or password' unless username == 'admin' && password == 'password'
 
         ResponseBuilder.build(200, body: { message: 'Login successful', token: generate_token }.to_json)
-
       else
         raise :NotFoundError, "Unknown action: #{action}"
       end
@@ -27,7 +26,7 @@ module Routes
       "#{hash}:#{timestamp}"
     end
 
-    def self.validate_token(token)
+    def self.validate_token!(token)
       hash, timestamp = token.split(':')
       expected_hash = Digest::MD5.hexdigest("#{timestamp}:#{FudoChallenge::API_TOKEN}")
       raise UnauthorizedError, 'Invalid token' unless hash == expected_hash

@@ -3,12 +3,10 @@ module Routes
     REQUIRED_KEYS = [:name, :price, :category, :id].freeze
     
     def self.route(env)
-      puts "Routing request for products with method: #{env[:request_method]} and body: #{env[:body]}"
       case env[:request_method]
       when :get
         handle_get_request(env)
       when :post
-        puts "Handling POST request with body: #{env[:body]}"
         handle_post_request(env)
       else
         raise NotFoundError, "Unsupported method: #{env[:request_method]}"
