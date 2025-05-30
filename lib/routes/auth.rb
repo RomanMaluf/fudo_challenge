@@ -27,6 +27,8 @@ module Routes
     end
 
     def self.validate_token!(token)
+      raise UnauthorizedError, 'Token is required' if token.nil? || token.empty?
+
       hash, timestamp = token.split(':')
       expected_hash = Digest::MD5.hexdigest("#{timestamp}:#{FudoChallenge::API_TOKEN}")
       raise UnauthorizedError, 'Invalid token' unless hash == expected_hash

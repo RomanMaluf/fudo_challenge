@@ -3,6 +3,7 @@
 require 'rack'
 require 'json'
 require 'digest/md5'
+require 'securerandom'
 
 # Custom Error Classes
 require_relative 'errors/not_found_error'
@@ -14,6 +15,10 @@ require_relative 'helpers/response_builder'
 # Routes
 require_relative 'routes/auth'
 require_relative 'routes/products'
+require_relative 'routes/jobs'
+
+# Jobs
+require_relative 'jobs/insert_product'
 
 class FudoChallenge
   API_TOKEN = 'fudo_challenge_api_token'
@@ -47,6 +52,9 @@ class FudoChallenge
       Routes::Auth.validate_token!(env[:headers]['authorization'])
 
       Routes::Products.route(env)
+    when 'jobs'
+      Routes::Auth.validate_token!(env[:headers]['authorization'])
+      Routes::Jobs.route(env)
     else
       raise NotFoundError, "Unknown route: #{env[:paths][0]}"
     end
