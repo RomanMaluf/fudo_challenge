@@ -2,7 +2,6 @@
 
 module Jobs
   class InsertProduct
-    @queue = {}
     @statuses = {}
 
     class << self
