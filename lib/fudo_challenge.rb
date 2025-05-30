@@ -4,11 +4,14 @@ require 'rack'
 require 'json'
 require 'digest/md5'
 
+# Custom Error Classes
 require_relative 'errors/not_found_error'
 require_relative 'errors/unauthorized_error'
 
+# Helpers
 require_relative 'helpers/response_builder'
 
+# Routes
 require_relative 'routes/auth'
 require_relative 'routes/products'
 
@@ -35,7 +38,7 @@ class FudoChallenge
 
     case env[:paths][0]
     when nil
-      ResponseBuilder.serve_file('public/openapi.yaml', content_type: 'application/x-yaml', cache_control: 'no-cache')
+      ResponseBuilder.serve_file('public/openapi.yaml', content_type: 'text/yaml', cache_control: 'no-cache')
     when 'authors', 'AUTHORS'
       ResponseBuilder.serve_file('public/AUTHORS', content_type: 'text/plain', cache_control: 'public, max-age=86400')
     when 'login'
