@@ -46,7 +46,7 @@ RSpec.describe 'Products endpoint', type: :request do
         expect(product['price']).to eq(29.99)
       end
 
-      context 'when product data is invalid' do
+      context 'when product data is invalid', openapi: false  do
         it 'returns 201 when required fields are missing but job should failed' do
           post '/products', { name: 'Invalid Product' }.to_json, @headers
           parse_response = JSON.parse(last_response.body)
@@ -72,7 +72,7 @@ RSpec.describe 'Products endpoint', type: :request do
       end
     end
 
-    context 'PUT /products/:id' do
+    context 'PUT /products/:id', openapi: false do
       it 'returns 404 due method not implmented yet' do
         put '/products/1', { name: 'Updated Product' }.to_json, @headers
         expect(last_response.status).to eq(404)

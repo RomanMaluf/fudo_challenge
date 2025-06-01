@@ -25,7 +25,7 @@ RSpec.describe 'Jobs endpoint', type: :request do
       expect(JSON.parse(last_response.body)).to eq(expected_response)
     end
 
-    it 'returns a specific job for show action' do
+    it 'returns a specific job for show action'  do
       post '/products', { id: SecureRandom.hex(4), name: 'Test Job' }.to_json, @headers
       response = JSON.parse(last_response.body)
 
@@ -36,19 +36,19 @@ RSpec.describe 'Jobs endpoint', type: :request do
       expect(parsed_response['status']).to eq('queued')
     end
 
-    it 'returns 404 for non-existing job' do
+    it 'returns 404 for non-existing job', openapi: false do
       get '/jobs/non-existing-job', {}, @headers
       expect(last_response.status).to eq(404)
       expect(JSON.parse(last_response.body)).to eq({ 'error' => 'Job with ID non-existing-job not found' })
     end
 
-    it 'returns 400 when job ID is missing' do
+    it 'returns 400 when job ID is missing', openapi: false do
       get '/jobs/', {}, @headers
       expect(last_response.status).to eq(400)
       expect(JSON.parse(last_response.body)).to eq({ 'error' => 'Job ID is required' })
     end
 
-    it 'returns 404 for unsupported method' do
+    it 'returns 404 for unsupported method', openapi: false do
       put '/jobs', {}, @headers
       expect(last_response.status).to eq(404)
       expect(JSON.parse(last_response.body)).to eq({ 'error' => 'Unsupported method for /jobs route: put' })
@@ -56,7 +56,7 @@ RSpec.describe 'Jobs endpoint', type: :request do
   end
 
   context 'when not authenticated' do
-    it 'returns unauthorized when missing credentials' do
+    it 'returns unauthorized when missing credentials', openapi: false do
       get '/jobs'
       expect(last_response.status).to eq(401)
     end

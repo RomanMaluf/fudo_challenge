@@ -8,7 +8,7 @@ RSpec.describe 'Login endpoint', type: :request do
     expect(parse_response['token']).to be_present
   end
 
-  it 'returns 404 when not valid method is used' do
+  it 'returns 404 when not valid method is used', openapi: false do
     get '/login'
     expect(last_response.status).to eq(404)
     expect(JSON.parse(last_response.body)).to eq({ 'error' => 'Resource not found' })

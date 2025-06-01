@@ -10,7 +10,7 @@ RSpec.describe 'Authors endpoint', type: :request do
     expect(last_response.headers['Content-Length']).to eq('18')
   end
 
-  it 'returns 404 for non-existing path' do
+  it 'returns 404 for non-existing path', openapi: false do
     get '/non-existing-path'
     expect(last_response.status).to eq(404)
     expect(JSON.parse(last_response.body)).to eq({ 'error' => 'Unknown route: non-existing-path' })
