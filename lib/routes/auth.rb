@@ -13,9 +13,7 @@ module Routes
       when 'login'
         raise UnauthorizedError, 'Invalid username or password' unless username == 'admin' && password == 'password'
 
-        ResponseBuilder.build(200, body: { message: 'Login successful', token: generate_token }.to_json)
-      else
-        raise :NotFoundError, "Unknown action: #{action}"
+        ResponseBuilder.build(200, body: { message: 'Login successful', token: generate_token })
       end
     end
 
