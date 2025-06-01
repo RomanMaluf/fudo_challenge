@@ -6,3 +6,17 @@ gem 'json'
 gem 'puma'
 gem 'rack'
 gem 'rackup'
+
+group :development, :test do
+  gem 'brakeman'
+  gem 'bundler-audit'
+  gem 'rack-test'
+  gem 'rspec'
+  gem 'rspec-openapi'
+  gem 'simplecov'
+  gem 'simplecov-lcov'
+end
+
+group :development do
+  gem 'rubocop'
+end
