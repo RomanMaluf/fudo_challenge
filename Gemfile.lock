@@ -34,8 +34,6 @@ GEM
     base64 (0.3.0)
     benchmark (0.4.1)
     bigdecimal (3.2.1)
-    brakeman (7.0.2)
-      racc
     builder (3.3.0)
     bundler-audit (0.9.2)
       bundler (>= 1.2.0, < 3)
@@ -143,7 +141,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  brakeman
   bundler-audit
   json
   puma

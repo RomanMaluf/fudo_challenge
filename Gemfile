@@ -8,7 +8,6 @@ gem 'rack'
 gem 'rackup'
 
 group :development, :test do
-  gem 'brakeman'
   gem 'bundler-audit'
   gem 'rack-test'
   gem 'rspec'
