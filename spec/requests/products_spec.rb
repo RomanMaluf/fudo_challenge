@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe 'Products endpoint', type: :request do
   context 'when authenticated' do
     before do
@@ -80,6 +81,22 @@ RSpec.describe 'Products endpoint', type: :request do
         expect(parse_response['error']).to eq('Unsupported method: put')
       end
     end
+
+    context 'when client accepts gzip', openapi: false do
+      it 'returns a gzipped response with smaller size' do
+        get '/products', {}, @headers.merge('HTTP_ACCEPT_ENCODING' => 'gzip')
+
+        expect(last_response.status).to eq(200)
+        expect(last_response.headers['content-encoding']).to eq('gzip')
+
+        gzipped_size = last_response.body.bytesize
+
+        get '/products', {}, @headers
+        uncompressed_size = last_response.body.bytesize
+
+        expect(gzipped_size).to be < uncompressed_size
+      end
+    end
   end
 
   context 'when not authenticated' do
@@ -89,3 +106,4 @@ RSpec.describe 'Products endpoint', type: :request do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

@@ -38,40 +38,6 @@ paths:
                 required:
                 - error
               example: {}
-  "/jobs/738ebe16-d2f4-4439-8274-a984a35c165c":
-    get:
-      summary: GET /jobs/738ebe16-d2f4-4439-8274-a984a35c165c
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-        example: 4eb9a863fead287f5e3e551a6040aec4:1748797575
-      - name: Content-Type
-        in: header
-        required: true
-        schema:
-          type: string
-        example: application/json
-      responses:
-        '200':
-          description: returns a specific job for show action
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  job_id:
-                    type: string
-                  status:
-                    type: string
-                required:
-                - job_id
-                - status
-              example:
-                job_id: 738ebe16-d2f4-4439-8274-a984a35c165c
-                status: queued
   "/jobs/all":
     get:
       summary: GET /jobs/all
@@ -103,19 +69,63 @@ paths:
                   job1: queued
                   job2: failed
                   job3: completed
+        '401':
+          description: returns a list of all jobs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                required:
+                - error
+              example: {}
       parameters:
       - name: Authorization
         in: header
         required: true
         schema:
           type: string
-        example: 4eb9a863fead287f5e3e551a6040aec4:1748797575
+        example: 8e3a4efb7750ddc1306ebc227e1f881e:1748817333
       - name: Content-Type
         in: header
         required: true
         schema:
           type: string
         example: application/json
+  "/jobs/f1e98951-618a-4acc-9fb0-ffd6855cdc40":
+    get:
+      summary: GET /jobs/f1e98951-618a-4acc-9fb0-ffd6855cdc40
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+        example: 8e3a4efb7750ddc1306ebc227e1f881e:1748817333
+      - name: Content-Type
+        in: header
+        required: true
+        schema:
+          type: string
+        example: application/json
+      responses:
+        '200':
+          description: returns a specific job for show action
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - job_id
+                - status
+              example:
+                job_id: f1e98951-618a-4acc-9fb0-ffd6855cdc40
+                status: queued
   "/login":
     post:
       summary: POST /login
@@ -152,7 +162,17 @@ paths:
                 - token
               example:
                 message: Login successful
-                token: 4eb9a863fead287f5e3e551a6040aec4:1748797575
+                token: 8e3a4efb7750ddc1306ebc227e1f881e:1748817333
+        '500':
+          description: returns token when correct credentials are provided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                required:
+                - error
+              example: {}
       parameters:
       - name: Content-Type
         in: header
@@ -180,11 +200,6 @@ paths:
                           type: integer
                         name:
                           type: string
-                        price:
-                          type: number
-                          format: float
-                        category:
-                          type: string
                       required:
                       - id
                       - name
@@ -196,12 +211,12 @@ paths:
                   name: Sample Product
                 - id: 2
                   name: New Product
-                - id: 44df3775
+                - id: aa8c7b83
                   name: Test Job
-                - id: 2d014b8b
+                - id: b53e4072
                   name: New Product
                   price: 19.99
-                - id: f2c2ee8b
+                - id: f87883fc
                   name: Delayed Product
                   price: 29.99
         '401':
@@ -236,7 +251,7 @@ paths:
         required: true
         schema:
           type: string
-        example: 4eb9a863fead287f5e3e551a6040aec4:1748797575
+        example: 5ecb8592bf4735a700627050a3297d79:1748817334
       - name: Content-Type
         in: header
         required: true
@@ -251,7 +266,7 @@ paths:
         required: true
         schema:
           type: string
-        example: 4eb9a863fead287f5e3e551a6040aec4:1748797575
+        example: 5ecb8592bf4735a700627050a3297d79:1748817334
       - name: Content-Type
         in: header
         required: true
@@ -276,7 +291,7 @@ paths:
               - name
               - price
             example:
-              id: 2d014b8b
+              id: b53e4072
               name: New Product
               price: 19.99
       responses:
@@ -312,10 +327,20 @@ paths:
               example:
                 message: Product enqueued for insertion
                 product:
-                  id: 2d014b8b
+                  id: b53e4072
                   name: New Product
                   price: 19.99
-                job_id: 899b2fa2-9c6c-4977-b7cc-899ddfd3083e
+                job_id: 505d51e9-a489-403f-83c0-836db94a74f5
+        '401':
+          description: after 5 seconds new product should be available
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                required:
+                - error
+              example: {}
 components:
   securitySchemes:
     Authorization:
