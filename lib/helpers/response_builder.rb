@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+#
+## ResponseBuilder is a helper class to build HTTP responses in a consistent format.
 class ResponseBuilder
   class << self
     def build(status, body:, headers: {})

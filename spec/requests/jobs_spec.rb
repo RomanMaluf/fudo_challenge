@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe 'Jobs endpoint', type: :request do
   context 'when authenticated' do
     before do
@@ -72,3 +73,4 @@ RSpec.describe 'Jobs endpoint', type: :request do
                                                                 })
   end
 end
+# rubocop:enable Metrics/BlockLength

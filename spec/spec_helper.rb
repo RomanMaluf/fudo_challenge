@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'rack/test'
+require_relative '../lib/fudo_challenge'
+
 Dir[File.join(__dir__, 'support', '**', '*.rb')].sort.each { |f| require f }
 
 ENV['RACK_ENV'] = 'test'
@@ -9,8 +11,10 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
 
   def app
-    require_relative '../lib/fudo_challenge'
-    FudoChallenge.new
+    Rack::Builder.new do
+      use Middlewares::Gzip
+      run FudoChallenge.new
+    end
   end
 
   config.mock_with :rspec do |mocks|

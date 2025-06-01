@@ -3,7 +3,6 @@
 RSpec.describe 'Authors endpoint', type: :request do
   it 'returns Authors name' do
     get '/AUTHORS'
-    puts last_response.body
     expect(last_response.status).to eq(200)
     expect(last_response.body).to eq("Roman Elias Maluf\n")
     expect(last_response.headers['Content-Type']).to eq('text/plain')

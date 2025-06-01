@@ -2,6 +2,7 @@
 
 require_relative '../../lib/models/product'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Product do
   let(:sample_product) { { id: 1, name: 'Sample Product' } }
 
@@ -37,3 +38,4 @@ RSpec.describe Product do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# handles product data management.
 class Product
   REQUIRED_KEYS = %i[id name].freeze
   @products = JSON.parse(File.read('public/products.json'), symbolize_names: true)

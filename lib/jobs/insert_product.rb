@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Jobs
+  # Background job for inserting products into the system.
   class InsertProduct
     @statuses = {}
 
@@ -9,16 +10,13 @@ module Jobs
 
       def enqueue(id, product)
         @statuses[id] = :queued
-        puts "Job #{id} has been enqueued."
         Thread.new do
           sleep(5) unless ENV['RACK_ENV'] == 'test' # Simulate product insertion delay
 
           insert_product(id, product)
           @statuses[id] = :completed
-          puts "Job #{id} has been completed."
-        rescue ArgumentError => e
+        rescue ArgumentError
           @statuses[id] = :failed
-          puts "Job #{id} has failed: #{e.message}"
         end
       end
 
@@ -26,7 +24,6 @@ module Jobs
         validate_keys!(product.keys)
         validate_product_unique!(product[:id])
         ::Product.add(product)
-        puts "Product #{product[:id]} has been inserted."
       end
 
       def validate_keys!(keys)
