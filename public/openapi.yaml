@@ -28,6 +28,50 @@ paths:
               example: 'Roman Elias Maluf
 
                 '
+        '500':
+          description: returns Authors name
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                required:
+                - error
+              example: {}
+  "/jobs/738ebe16-d2f4-4439-8274-a984a35c165c":
+    get:
+      summary: GET /jobs/738ebe16-d2f4-4439-8274-a984a35c165c
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+        example: 4eb9a863fead287f5e3e551a6040aec4:1748797575
+      - name: Content-Type
+        in: header
+        required: true
+        schema:
+          type: string
+        example: application/json
+      responses:
+        '200':
+          description: returns a specific job for show action
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - job_id
+                - status
+              example:
+                job_id: 738ebe16-d2f4-4439-8274-a984a35c165c
+                status: queued
   "/jobs/all":
     get:
       summary: GET /jobs/all
@@ -65,47 +109,13 @@ paths:
         required: true
         schema:
           type: string
-        example: 8b8fe474aa171b457c89f501fde6ea27:1748796252
+        example: 4eb9a863fead287f5e3e551a6040aec4:1748797575
       - name: Content-Type
         in: header
         required: true
         schema:
           type: string
         example: application/json
-  "/jobs/d7082a53-bcf1-4dac-b92b-f304cdeb3af3":
-    get:
-      summary: GET /jobs/d7082a53-bcf1-4dac-b92b-f304cdeb3af3
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-        example: 8b8fe474aa171b457c89f501fde6ea27:1748796252
-      - name: Content-Type
-        in: header
-        required: true
-        schema:
-          type: string
-        example: application/json
-      responses:
-        '200':
-          description: returns a specific job for show action
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  job_id:
-                    type: string
-                  status:
-                    type: string
-                required:
-                - job_id
-                - status
-              example:
-                job_id: d7082a53-bcf1-4dac-b92b-f304cdeb3af3
-                status: queued
   "/login":
     post:
       summary: POST /login
@@ -142,7 +152,7 @@ paths:
                 - token
               example:
                 message: Login successful
-                token: 8b8fe474aa171b457c89f501fde6ea27:1748796252
+                token: 4eb9a863fead287f5e3e551a6040aec4:1748797575
       parameters:
       - name: Content-Type
         in: header
@@ -186,9 +196,12 @@ paths:
                   name: Sample Product
                 - id: 2
                   name: New Product
-                - id: e2248606
+                - id: 44df3775
                   name: Test Job
-                - id: c673f4f5
+                - id: 2d014b8b
+                  name: New Product
+                  price: 19.99
+                - id: f2c2ee8b
                   name: Delayed Product
                   price: 29.99
         '401':
@@ -223,13 +236,86 @@ paths:
         required: true
         schema:
           type: string
-        example: 8b8fe474aa171b457c89f501fde6ea27:1748796252
+        example: 4eb9a863fead287f5e3e551a6040aec4:1748797575
       - name: Content-Type
         in: header
         required: true
         schema:
           type: string
         example: application/json
+    post:
+      summary: POST /products
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+        example: 4eb9a863fead287f5e3e551a6040aec4:1748797575
+      - name: Content-Type
+        in: header
+        required: true
+        schema:
+          type: string
+        example: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                price:
+                  type: number
+                  format: float
+              required:
+              - id
+              - name
+              - price
+            example:
+              id: 2d014b8b
+              name: New Product
+              price: 19.99
+      responses:
+        '201':
+          description: enqueues a job to insert a product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  product:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      price:
+                        type: number
+                        format: float
+                    required:
+                    - id
+                    - name
+                    - price
+                  job_id:
+                    type: string
+                required:
+                - message
+                - product
+                - job_id
+              example:
+                message: Product enqueued for insertion
+                product:
+                  id: 2d014b8b
+                  name: New Product
+                  price: 19.99
+                job_id: 899b2fa2-9c6c-4977-b7cc-899ddfd3083e
 components:
   securitySchemes:
     Authorization:

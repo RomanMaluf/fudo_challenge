@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Routes
+  # Jobs Route Handler
   class Jobs
     def self.route(env)
       case env[:request_method]

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Routes
+  # Products Route Handler
   class Products
     def self.route(env)
       case env[:request_method]

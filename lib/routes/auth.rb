@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Routes
+  # Auth Route Handler
   class Auth
     def self.route(env)
       raise NotFoundError unless env[:request_method] == :post

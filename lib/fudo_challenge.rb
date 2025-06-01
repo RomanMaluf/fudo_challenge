@@ -14,6 +14,8 @@ require_relative 'helpers/response_builder'
 
 # Routes
 require_relative 'routes/auth'
+require_relative 'routes/authors'
+require_relative 'routes/open_api'
 require_relative 'routes/products'
 require_relative 'routes/jobs'
 
@@ -22,6 +24,8 @@ require_relative 'jobs/insert_product'
 
 # Models
 require_relative 'models/product'
+
+# Main Application Class
 class FudoChallenge
   API_TOKEN = 'fudo_challenge_api_token'
 
@@ -37,24 +41,31 @@ class FudoChallenge
 
   def process_route(env)
     env = parse_env(env)
+    path = env[:paths][0]&.downcase
 
-    case env[:paths][0]
-    when nil
-      ResponseBuilder.serve_file('public/openapi.yaml', content_type: 'text/yaml', cache_control: 'no-cache')
-    when 'authors', 'AUTHORS'
-      ResponseBuilder.serve_file('public/AUTHORS', content_type: 'text/plain', cache_control: 'public, max-age=86400')
-    when 'login'
-      Routes::Auth.route(env)
-    when 'products'
-      Routes::Auth.validate_token!(env[:headers]['authorization'])
+    route = route_registry[path]
+    raise NotFoundError, "Unknown route: #{path}" unless route
 
-      Routes::Products.route(env)
-    when 'jobs'
-      Routes::Auth.validate_token!(env[:headers]['authorization'])
-      Routes::Jobs.route(env)
-    else
-      raise NotFoundError, "Unknown route: #{env[:paths][0]}"
-    end
+    instance_exec(env, &route)
+  end
+
+  private
+
+  # rubocop:disable Layout/HashAlignment
+  def route_registry
+    @route_registry ||= {
+      nil         => ->(env) { Routes::OpenApi.route(env) },
+      'authors'   => ->(env) { Routes::Authors.route(env) },
+      'login'     => ->(env) { Routes::Auth.route(env) },
+      'products'  => ->(env) { with_auth(env) { Routes::Products.route(env) } },
+      'jobs'      => ->(env) { with_auth(env) { Routes::Jobs.route(env) } }
+    }
+  end
+  # rubocop:enable Layout/HashAlignment
+
+  def with_auth(env)
+    Routes::Auth.validate_token!(env[:headers]['authorization'])
+    yield
   end
 
   def parse_env(env)

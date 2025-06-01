@@ -46,7 +46,7 @@ RSpec.describe 'Products endpoint', type: :request do
         expect(product['price']).to eq(29.99)
       end
 
-      context 'when product data is invalid', openapi: false  do
+      context 'when product data is invalid', openapi: false do
         it 'returns 201 when required fields are missing but job should failed' do
           post '/products', { name: 'Invalid Product' }.to_json, @headers
           parse_response = JSON.parse(last_response.body)

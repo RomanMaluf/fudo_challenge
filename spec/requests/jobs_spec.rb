@@ -25,7 +25,7 @@ RSpec.describe 'Jobs endpoint', type: :request do
       expect(JSON.parse(last_response.body)).to eq(expected_response)
     end
 
-    it 'returns a specific job for show action'  do
+    it 'returns a specific job for show action' do
       post '/products', { id: SecureRandom.hex(4), name: 'Test Job' }.to_json, @headers
       response = JSON.parse(last_response.body)
 
