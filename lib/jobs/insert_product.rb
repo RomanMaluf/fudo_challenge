@@ -11,7 +11,7 @@ module Jobs
         @statuses[id] = :queued
         puts "Job #{id} has been enqueued."
         Thread.new do
-          sleep 5 # Simulate product insertion delay
+          sleep(5) unless ENV['RACK_ENV'] == 'test' # Simulate product insertion delay
 
           insert_product(id, product)
           @statuses[id] = :completed
