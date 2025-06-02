@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'json'
 gem 'puma'
 gem 'rack'
+gem 'rack-cors'
 gem 'rackup'
 
 group :development, :test do
