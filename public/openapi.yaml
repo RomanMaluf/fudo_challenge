@@ -9,7 +9,9 @@ info:
   version: 1.0.0
   description: Fudo Challenge API
 servers:
-- url: http://localhost:9292
+- url: http://0.0.0.0:9292
+security:
+- Authorization: []
 paths:
   "/AUTHORS":
     get:
@@ -38,6 +40,27 @@ paths:
                 required:
                 - error
               example: {}
+  "/jobs/22f32004-1a91-4d01-bc05-544c478f1fbd":
+    get:
+      summary: GET /jobs/22f32004-1a91-4d01-bc05-544c478f1fbd
+      responses:
+        '200':
+          description: returns a specific job for show action
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - job_id
+                - status
+              example:
+                job_id: 22f32004-1a91-4d01-bc05-544c478f1fbd
+                status: queued
   "/jobs/all":
     get:
       summary: GET /jobs/all
@@ -85,47 +108,13 @@ paths:
         required: true
         schema:
           type: string
-        example: 8e3a4efb7750ddc1306ebc227e1f881e:1748817333
+        example: b45ff06902520bc86f45667e5fbd444d:1748827146
       - name: Content-Type
         in: header
         required: true
         schema:
           type: string
         example: application/json
-  "/jobs/f1e98951-618a-4acc-9fb0-ffd6855cdc40":
-    get:
-      summary: GET /jobs/f1e98951-618a-4acc-9fb0-ffd6855cdc40
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-        example: 8e3a4efb7750ddc1306ebc227e1f881e:1748817333
-      - name: Content-Type
-        in: header
-        required: true
-        schema:
-          type: string
-        example: application/json
-      responses:
-        '200':
-          description: returns a specific job for show action
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  job_id:
-                    type: string
-                  status:
-                    type: string
-                required:
-                - job_id
-                - status
-              example:
-                job_id: f1e98951-618a-4acc-9fb0-ffd6855cdc40
-                status: queued
   "/login":
     post:
       summary: POST /login
@@ -162,7 +151,7 @@ paths:
                 - token
               example:
                 message: Login successful
-                token: 8e3a4efb7750ddc1306ebc227e1f881e:1748817333
+                token: aef8342f085ef386ed9ebeef4db101a6:1748828369
         '500':
           description: returns token when correct credentials are provided
           content:
@@ -211,12 +200,12 @@ paths:
                   name: Sample Product
                 - id: 2
                   name: New Product
-                - id: aa8c7b83
+                - id: 11fd8331
                   name: Test Job
-                - id: b53e4072
+                - id: eb8980c3
                   name: New Product
                   price: 19.99
-                - id: f87883fc
+                - id: 7704828d
                   name: Delayed Product
                   price: 29.99
         '401':
@@ -245,34 +234,8 @@ paths:
                 - error
               example:
                 error: Internal Server Error
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-        example: 5ecb8592bf4735a700627050a3297d79:1748817334
-      - name: Content-Type
-        in: header
-        required: true
-        schema:
-          type: string
-        example: application/json
     post:
       summary: POST /products
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-        example: 5ecb8592bf4735a700627050a3297d79:1748817334
-      - name: Content-Type
-        in: header
-        required: true
-        schema:
-          type: string
-        example: application/json
       requestBody:
         content:
           application/json:
@@ -291,7 +254,7 @@ paths:
               - name
               - price
             example:
-              id: b53e4072
+              id: eb8980c3
               name: New Product
               price: 19.99
       responses:
@@ -327,10 +290,10 @@ paths:
               example:
                 message: Product enqueued for insertion
                 product:
-                  id: b53e4072
+                  id: eb8980c3
                   name: New Product
                   price: 19.99
-                job_id: 505d51e9-a489-403f-83c0-836db94a74f5
+                job_id: 413bbb2f-763a-465c-9c35-64a14940cda8
         '401':
           description: after 5 seconds new product should be available
           content:
@@ -347,4 +310,4 @@ components:
       description: Authenticate API requests via a Token
       type: apiKey
       in: header
-      name: HTTP-AUTHORIZATION
+      name: AUTHORIZATION

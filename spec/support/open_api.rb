@@ -10,12 +10,8 @@ RSpec::OpenAPI.info = {
   description: 'Fudo Challenge API'
 }
 
-RSpec::OpenAPI.request_headers = %w[Authorization Content-Type]
-
-RSpec::OpenAPI.response_headers = %w[x-powered-by]
-
 # Set `servers` - generate servers of a schema file
-RSpec::OpenAPI.servers = [{ url: 'http://localhost:9292' }]
+RSpec::OpenAPI.servers = [{ url: 'http://0.0.0.0:9292' }]
 
 # Set `security_schemes` - generate security schemes
 RSpec::OpenAPI.security_schemes = {
@@ -23,7 +19,7 @@ RSpec::OpenAPI.security_schemes = {
     description: 'Authenticate API requests via a Token',
     type: 'apiKey',
     in: 'header',
-    name: 'HTTP-AUTHORIZATION'
+    name: 'AUTHORIZATION'
   }
 }
 
